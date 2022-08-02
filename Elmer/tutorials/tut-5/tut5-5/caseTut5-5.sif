@@ -1,0 +1,78 @@
+Header
+  CHECK KEYWORDS Warn
+  Mesh DB "." "."
+  Include Path ""
+  Results Directory ""
+End
+
+Simulation
+  Max Output Level = 5
+  Coordinate System = Cartesian
+  Coordinate Mapping(3) = 1 2 3
+  Simulation Type = Steady state
+  Steady State Max Iterations = 1
+  Output Intervals = 1
+  Timestepping Method = BDF
+  BDF Order = 1
+  Solver Input File = caseTut5-5.sif
+  Post File = caseTut5-5.vtu
+End
+
+Constants
+  Gravity(4) = 0 -1 0 9.82
+  Stefan Boltzmann = 5.67e-08
+  Permittivity of Vacuum = 8.8542e-12
+  Boltzmann Constant = 1.3807e-23
+  Unit Charge = 1.602e-19
+End
+
+Body 1
+  Target Bodies(1) = 1
+  Name = "Body 1"
+  Equation = 1
+  Material = 1
+End
+
+Solver 1
+  Equation = Elastic Plates
+  Eigen System Select = Smallest magnitude
+  Variable = -dofs 3 Deflection
+  Eigen Analysis = True
+  Procedure = "Smitc" "SmitcSolver"
+  Eigen System Values = 5
+  Exec Solver = Always
+  Stabilize = True
+  Bubbles = False
+  Lumped Mass Matrix = False
+  Optimize Bandwidth = True
+  Steady State Convergence Tolerance = 1.0e-5
+  Nonlinear System Convergence Tolerance = 1.0e-7
+  Nonlinear System Max Iterations = 20
+  Nonlinear System Newton After Iterations = 3
+  Nonlinear System Newton After Tolerance = 1.0e-3
+  Nonlinear System Relaxation Factor = 1
+  Linear System Solver = Direct
+  Linear System Direct Method = Umfpack
+End
+
+Equation 1
+  Name = "OctogonPlateEquation"
+  Active Solvers(1) = 1
+End
+
+Material 1
+  Name = "Ideal"
+  Youngs modulus = 1e9
+  Poisson ratio = 0.3
+  Density = 1000
+  Tension = 0.0
+  Thickness = 0.001
+End
+
+Boundary Condition 1
+  Target Boundaries(8) = 1 2 3 4 5 6 7 8 
+  Name = "BC-Fixed"
+  Deflection 1 = 0
+  Deflection 3 = 0
+  Deflection 2 = 0
+End
